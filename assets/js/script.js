@@ -10,25 +10,29 @@ var defaultChar= [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "
 var genChar =function(charArray){
 var indexChar = Math.floor(Math.random() *charArray.length);
 return charArray[indexChar];
-}
+};
 
 var getLength = function(){
   var lengthPrompt= window.prompt("How long do you want your password to be? (Must be between 8 and 128 character)");
-  lengthPrompt=parseInt(lengthPrompt);
-  if (lengthPrompt==NaN){
+  
+  var returnLength=parseInt(lengthPrompt);
+  window.confirm(lengthPrompt);
+  if (returnLength===NaN){
     console.alert("Not a valid number please enter a number between 8 and 128.");
-    getLength();
-  };
-  if (lengthPrompt<8 || lengthPrompt > 128){
-    console.alert("Please enter a number between 8 and 128 ");
+    return getLength();
   }
-  return lengthPrompt;
+  else if ((returnLength < 8) || (returnLength > 128)){
+    console.alert("Please enter a number between 8 and 128 ");
+    return getLength();
+  }
+  
+  return returnLength;
 };
 
 var confirmChoice= function(nameChoice){
   choice=window.prompt("Do you want to include "+nameChoice+" in your character set?");
   choice=choice.toLowerCase();
-  while(choice!="yes" || choice!="no"){
+  while((choice!="yes") || (choice!="no")){
     newChoice = window.prompt("Not a valid response. please enter yes or no." );
     choice=newChoice.toLowerCase();
   }
@@ -57,7 +61,7 @@ var getCases = function(){
   var upperCase_choice=confirmChoice("upper case");
   var numerical_choice=confirmChoice("numerical");
   var special_choice=confirmChoice("special character");
-  if (!lowerCase_choice && !upperCase_choice && !numerical_choice && !special_choice){
+  if ((!lowerCase_choice) && (!upperCase_choice) && (!numerical_choice) && (!special_choice)){
     window.alert("You did not choose any of the character sets! Please choose again and select atleast one.")
   return getCases();
   }
@@ -75,25 +79,57 @@ var getCases = function(){
   }
   return returnArray;
 }
+var notvalid=function(input){
+  while((input != "yes") || (input!="no")){
+    input= window.prompt("not a valid response, please type YES or NO.");
+    input=input.toLowerCase();
+    window.alert("you said "+input);
+  }
+};
 
 var promptUserNum= function(){
-var lengthChoice=window.prompt("Do you want to specify the length of the password select YES or NO");
+var lengthChoice=window.prompt("Do you want to specify the length of the password? type YES or NO");
 lengthChoice=lengthChoice.toLowerCase();
-while(lengthChoice != "yes" || lengthChoice!="no"){
-  lengthChoice=window.prompt("not a valid response, please type YES or NO.");
-lengthChoice=lengthChoice.toLowerCase();
-}
-if (lengthChoice=="yes"){
-var confirmLength=window.confirm("are you sure you want to choose your password length?");
-if(confirmLength){
-  return getLength();
-}
-else return (Math.floor(Math.random()*(128-8)+8)).toString();
+//window.confirm("you said "+lengthChoice);
+if (lengthChoice === "yes"){
+  var confirmLength=window.confirm("are you sure you want to choose your password length?");
+  if(confirmLength){
+    return getLength();
+  }
+if ((lengthChoice != 'yes')|| (lengthChoice !="no")){
+  notvalid(lengthChoice);
 }
 
+
+else return Math.floor(Math.random()*(128-8)+8);
+}
 };
+
+var promptUserChars=function(){
+
+  var charChoice=window.prompt("Do you want to specify the characters in the password? type YES or NO");
+  charChoice=charChoice.toLowerCase();
+  while(charChoice != "yes" || charChoice!="no"){
+    charChoice=window.prompt("not a valid response, please type YES or NO.");
+    charChoice=charChoice.toLowerCase();
+  }
+  if (charChoice=="yes"){
+    var confirmChar=window.confirm("are you sure you want to choose your character Set?");
+  if(confirmChar){
+    return getCases();
+  }
+  else return defaultChar;
+}
+};
+
 var generatePassword=function(){
-var passwordLength=promptUserNum();
+  var passwordLength=promptUserNum();
+  var passwordChars=promptUserChars();
+  final_password="";
+  for (var i=0;i<passwordLength;i++){
+    final_password.concat(genChar(passwordChars));
+  }
+  return final_password;
 };
 
 // Get references to the #generate element
