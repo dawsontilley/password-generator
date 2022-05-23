@@ -16,47 +16,64 @@ var getLength = function(){
   var lengthPrompt= window.prompt("How long do you want your password to be? (Must be between 8 and 128 character)");
   
   var returnLength=parseInt(lengthPrompt);
-  window.confirm(lengthPrompt);
-  if (returnLength===NaN){
-    console.alert("Not a valid number please enter a number between 8 and 128.");
+  
+  //window.confirm(returnLength);
+ 
+  if ((returnLength < 8) || (returnLength > 128)){
+    window.alert("Please enter a number between 8 and 128.");
     return getLength();
   }
-  else if ((returnLength < 8) || (returnLength > 128)){
-    console.alert("Please enter a number between 8 and 128 ");
+  else if((returnLength >= 8) && (returnLength <=128)){
+    return returnLength;
+  }else{
+    window.alert("you did not enter a number, please enter number between 8 and 28.");
     return getLength();
   }
   
-  return returnLength;
 };
 
 var confirmChoice= function(nameChoice){
-  choice=window.prompt("Do you want to include "+nameChoice+" in your character set?");
-  choice=choice.toLowerCase();
-  while((choice!="yes") || (choice!="no")){
-    newChoice = window.prompt("Not a valid response. please enter yes or no." );
-    choice=newChoice.toLowerCase();
+  choice=window.prompt("Do you want to include "+nameChoice+" in your character set? Type YES or NO");
+  console.log(choice);
+  if (choice===null){
+    window.confirm("Not a valid option, Type YES or NO");
+    confirmChoice(nameChoice);
   }
+  choice=choice.toLowerCase();
+  /*if((choice!="yes") && (choice!="no")){
+    notvalid();
+  }*/
   //if the choice is yes it will prompt a confirm for the user.
   if (choice =="yes"){
 
-    var confirmYes= window.confirm("Are you sure you want"+nameChoice+"in your character set");
+    var confirmYes= window.confirm("Are you sure you want "+nameChoice+" in your character set?");
     //if confirmed it will return true as confirmed
     if (confirmYes){
       return true;
+    }else{
+      return confirmChoice(nameChoice);
     }
   }
-  else{
+  else if(choice =="no"){
   var confirmNo =window.confirm("Are you sure you don't want "+nameChoice+" in your character set?");
   if (confirmNo){
     return false;
   }else{
+    return confirmChoice(nameChoice);
+  }}
+  else{
+  window.alert("Not a valid option, Type YES or NO");
   return confirmChoice(nameChoice);
   }
-}
+
 };
 
 var getCases = function(){
-  var returnArray= [];
+  //var lowerCase=[ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+  //var upperCase=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",];
+  //var numbers=['1','2','3','4','5','6','7','8','9','0'];
+  //var specialChar=[" ", "!","#","$","%","&","'","(",")","*","+","-",".","/",":",";","<","=",">","?",":","@","[","\\","]","^","_","`","{","|","}","~"];  
+  var returnArray=[];
   var lowerCase_choice=confirmChoice("lower case");
   var upperCase_choice=confirmChoice("upper case");
   var numerical_choice=confirmChoice("numerical");
@@ -65,22 +82,29 @@ var getCases = function(){
     window.alert("You did not choose any of the character sets! Please choose again and select atleast one.")
   return getCases();
   }
+  console.log(lowerCase);
+  console.log(upperCase);
+  console.log(lowerCase_choice,upperCase_choice,numerical_choice,special_choice);
   if (lowerCase_choice){
-    returnArray.concat(lowerCase);
+    returnArray.push(lowerCase);
+    console.log(returnArray);
   }
-  else if (upperCase_choice){
-    returnArray.concat(upperCase);
+  if (upperCase_choice){
+    returnArray.push(upperCase);
+    console.log(returnArray);
   }
-  else if (numerical_choice){
-    returnArray.concat(numbers);
+  if (numerical_choice){
+    returnArray.push(numbers);
+    console.log(returnArray);
   }
-  else if (special_choice){
-    returnArray.concat(specialChar);
+  if (special_choice){
+    returnArray.push(specialChar);
+    console.log(returnArray);
   }
   return returnArray;
 }
 var notvalid=function(input){
-  while((input != "yes") || (input!="no")){
+  while((input != "yes") && (input!="no")){
     input= window.prompt("not a valid response, please type YES or NO.");
     input=input.toLowerCase();
     window.alert("you said "+input);
@@ -95,40 +119,67 @@ if (lengthChoice === "yes"){
   var confirmLength=window.confirm("are you sure you want to choose your password length?");
   if(confirmLength){
     return getLength();
+  }else{
+    return promptUserNum();
   }
-if ((lengthChoice != 'yes')|| (lengthChoice !="no")){
+}
+if ((lengthChoice != 'yes')&& (lengthChoice !="no")){
   notvalid(lengthChoice);
 }
 
 
-else return Math.floor(Math.random()*(128-8)+8);
+else{ 
+  var noConfirm = window.confirm("You selected no, thus will have a random password length between 8 and 128 characters.")
+  if (noConfirm){
+  return Math.floor(Math.random()*(128-8)+8);
+  }else{
+    return promptUserNum();
+  }
 }
+
 };
 
 var promptUserChars=function(){
 
   var charChoice=window.prompt("Do you want to specify the characters in the password? type YES or NO");
   charChoice=charChoice.toLowerCase();
-  while(charChoice != "yes" || charChoice!="no"){
+  //window.confirm(charChoice);
+  while ((charChoice != "yes" ) && (charChoice !="no")){
     charChoice=window.prompt("not a valid response, please type YES or NO.");
     charChoice=charChoice.toLowerCase();
   }
-  if (charChoice=="yes"){
+  if (charChoice==="yes"){
     var confirmChar=window.confirm("are you sure you want to choose your character Set?");
   if(confirmChar){
     return getCases();
+  }else{
+    return promptUserChars();
   }
-  else return defaultChar;
+  }
+
+  else{ 
+    var noConfirm=window.confirm("you are not selecting a character set, thus will use the default one.");
+    if (noConfirm){
+    return defaultChar;}
+    else{
+      return promptUserChars();
+    }
 }
+
+
 };
 
 var generatePassword=function(){
   var passwordLength=promptUserNum();
   var passwordChars=promptUserChars();
+  console.log(passwordChars);
   final_password="";
   for (var i=0;i<passwordLength;i++){
-    final_password.concat(genChar(passwordChars));
+    charToAdd=genChar(passwordChars);
+    console.log(charToAdd);
+    final_password+=charToAdd;
   }
+  console.log(final_password);
   return final_password;
 };
 
