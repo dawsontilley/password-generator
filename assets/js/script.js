@@ -1,17 +1,18 @@
 // Assignment code here
-//define the possible sets of characters lowerCase,upperCase, numbers, and special characters
+//define the possible sets of characters lowerCase,upperCase, numbers, and special characters to be combined based off user request.
 
 var lowerCase=[ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var upperCase=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",];
 var numbers=['1','2','3','4','5','6','7','8','9','0'];
 var specialChar=[" ", "!","#","$","%","&","'","(",")","*","+","-",".","/",":",";","<","=",">","?",":","@","[","\\","]","^","_","`","{","|","}","~"];
 var defaultChar= [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",'1','2','3','4','5','6','7','8','9','0'," ", "!","#","$","%","&","'","(",")","*","+","-",".","/",":",";","<","=",">","?",":","@","[","\\","]","^","_","`","{","|","}","~"];
-//modified random function to pick a char from the inputted array list
+//modified random function to pick a char from the inputted array list.
 var genChar =function(charArray){
 var indexChar = Math.floor(Math.random() *charArray.length);
 return charArray[indexChar];
 };
 
+// this function will prompt the the user for the length they desire as long as it is in the right boundries.
 var getLength = function(){
   var lengthPrompt= window.prompt("How long do you want your password to be? (Must be between 8 and 128 character)");
   
@@ -28,7 +29,7 @@ var getLength = function(){
   }
   
 };
-
+// this confirms the choice of a users char selection.
 var confirmChoice= function(nameChoice){
   choice=window.prompt("Do you want to include "+nameChoice+" in your character set? Type YES or NO");
   if (choice===null){
@@ -62,12 +63,8 @@ var confirmChoice= function(nameChoice){
   }
 
 };
-
-var getCases = function(){
-  //var lowerCase=[ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-  //var upperCase=["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",];
-  //var numbers=['1','2','3','4','5','6','7','8','9','0'];
-  //var specialChar=[" ", "!","#","$","%","&","'","(",")","*","+","-",".","/",":",";","<","=",">","?",":","@","[","\\","]","^","_","`","{","|","}","~"];  
+// this function defines the character set if the user wants a custom char set.
+var getCases = function(){  
   var returnArray=[];
   var lowerCase_choice=confirmChoice("lower case");
   var upperCase_choice=confirmChoice("upper case");
@@ -99,6 +96,7 @@ var getCases = function(){
   console.log(returnArray);
   return returnArray;
 }
+// called if a non valid response is recorded.
 var notvalid=function(input){
   while((input != "yes") && (input!="no")){
     input= window.prompt("not a valid response, please type YES or NO.");
@@ -107,7 +105,7 @@ var notvalid=function(input){
   }
   return 
 };
-
+// this function prompts the user if they want to set a password length or if they want a random length.
 var promptUserNum= function(){
 var lengthChoice=window.prompt("Do you want to specify the length of the password? type YES or NO");
 
@@ -136,7 +134,7 @@ else if (lengthChoice=='no'){
 }
 
 };
-
+// this function prompts user if they want to definte their charset or if they want the default one.
 var promptUserChars=function(){
 
   var charChoice=window.prompt("Do you want to specify the characters in the password? type YES or NO");
@@ -170,7 +168,7 @@ var promptUserChars=function(){
 
 
 };
-
+// this function combines all helper functions to generate the password and return it to the site.
 var generatePassword=function(){
   var passwordLength=promptUserNum();
   var passwordChars=promptUserChars();
@@ -184,7 +182,7 @@ var generatePassword=function(){
   console.log(final_password);
   return final_password;
 };
-
+//all of the code below is from the original author and was cloned along with the HTML and CSS
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
