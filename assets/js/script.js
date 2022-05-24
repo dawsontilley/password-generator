@@ -16,9 +16,6 @@ var getLength = function(){
   var lengthPrompt= window.prompt("How long do you want your password to be? (Must be between 8 and 128 character)");
   
   var returnLength=parseInt(lengthPrompt);
-  
-  //window.confirm(returnLength);
- 
   if ((returnLength < 8) || (returnLength > 128)){
     window.alert("Please enter a number between 8 and 128.");
     return getLength();
@@ -34,7 +31,6 @@ var getLength = function(){
 
 var confirmChoice= function(nameChoice){
   choice=window.prompt("Do you want to include "+nameChoice+" in your character set? Type YES or NO");
-  console.log(choice);
   if (choice===null){
     window.confirm("Not a valid option, Type YES or NO");
     confirmChoice(nameChoice);
@@ -47,7 +43,6 @@ var confirmChoice= function(nameChoice){
   if (choice =="yes"){
 
     var confirmYes= window.confirm("Are you sure you want "+nameChoice+" in your character set?");
-    //if confirmed it will return true as confirmed
     if (confirmYes){
       return true;
     }else{
@@ -86,33 +81,36 @@ var getCases = function(){
   console.log(upperCase);
   console.log(lowerCase_choice,upperCase_choice,numerical_choice,special_choice);
   if (lowerCase_choice){
-    returnArray.push(lowerCase);
-    console.log(returnArray);
+    returnArray=returnArray.concat(lowerCase);
+    ;
   }
   if (upperCase_choice){
-    returnArray.push(upperCase);
-    console.log(returnArray);
+    returnArray=returnArray.concat(upperCase);
+    
   }
   if (numerical_choice){
-    returnArray.push(numbers);
-    console.log(returnArray);
+    returnArray=returnArray.concat(numbers);
+    
   }
   if (special_choice){
-    returnArray.push(specialChar);
-    console.log(returnArray);
+    returnArray=returnArray.concat(specialChar);
+    
   }
+  console.log(returnArray);
   return returnArray;
 }
 var notvalid=function(input){
   while((input != "yes") && (input!="no")){
     input= window.prompt("not a valid response, please type YES or NO.");
     input=input.toLowerCase();
-    window.alert("you said "+input);
+    
   }
+  return 
 };
 
 var promptUserNum= function(){
 var lengthChoice=window.prompt("Do you want to specify the length of the password? type YES or NO");
+
 lengthChoice=lengthChoice.toLowerCase();
 //window.confirm("you said "+lengthChoice);
 if (lengthChoice === "yes"){
@@ -123,18 +121,18 @@ if (lengthChoice === "yes"){
     return promptUserNum();
   }
 }
-if ((lengthChoice != 'yes')&& (lengthChoice !="no")){
-  notvalid(lengthChoice);
-}
 
 
-else{ 
+else if (lengthChoice=='no'){ 
   var noConfirm = window.confirm("You selected no, thus will have a random password length between 8 and 128 characters.")
   if (noConfirm){
   return Math.floor(Math.random()*(128-8)+8);
   }else{
     return promptUserNum();
   }
+}else{
+  window.alert("Invald response, Please type YES or NO.");
+  return promptUserNum();
 }
 
 };
@@ -142,6 +140,10 @@ else{
 var promptUserChars=function(){
 
   var charChoice=window.prompt("Do you want to specify the characters in the password? type YES or NO");
+  if (charChoice==null){
+    window.alert(" not a valid response, please type YES or NO.");
+    return promptUserChars();
+  }
   charChoice=charChoice.toLowerCase();
   //window.confirm(charChoice);
   while ((charChoice != "yes" ) && (charChoice !="no")){
