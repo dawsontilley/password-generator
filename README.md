@@ -12,4 +12,4 @@ This Code will generate a password for you based on the criteria you pick for it
 * HTML & CSS: https://github.com/coding-boot-camp/friendly-parakeet/commits?author=Xandromus
 * JS: Dawson Tilley + Base code from cloned repo above (noted in JS)
 
-
+![website](./assets/img/page-picture.PNG)
